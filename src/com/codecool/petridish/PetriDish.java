@@ -26,7 +26,7 @@ public class PetriDish {
         return instance;
     }
 
-    public static void setBacteriaList() {
+    public void setInitialBacteria() {
         Position firstBacillusPos = new Position(3, 5);
         bacteriaList.add(new Bacillus(firstBacillusPos));
         Position firstCoccusPos = new Position(2, 4);
@@ -37,15 +37,15 @@ public class PetriDish {
         this.width = width;
     }
 
-    public int getWidth() {
-        return width;
+    public void setTimePulse() {
+        timePulse = 1;
     }
 
-    public static void setTimePulse() {
-        timePulse = 0;
+    public void increaseTimePulse() {
+        timePulse++;
     }
 
-    public static int getTimePulse() {
+    public int getTimePulse() {
         return timePulse;
     }
 
@@ -77,42 +77,80 @@ public class PetriDish {
         return bacilli;
     }
 
-    public void splitBacteria() {
+    public void processBacteriaList() {
         ListIterator<Bacteria> iterator = bacteriaList.listIterator();
         while (iterator.hasNext()) {
             Bacteria bacteria = iterator.next();
-            if (bacteria.canSplit()) {
-                Position newBacteriaPos1 = new Position(getRandomNumberInRange(0, width), getRandomNumberInRange(0,
-                        width));
-                Position newBacteriaPos2 = new Position(getRandomNumberInRange(0, width), getRandomNumberInRange(0,
-                        width));
 
-                while (!bacteria.isInsideRadius(newBacteriaPos1)
-                        && (newBacteriaPos1.x != newBacteriaPos2.x || newBacteriaPos1.y != newBacteriaPos2.y)) {
-                    newBacteriaPos1 = new Position(getRandomNumberInRange(0, width), getRandomNumberInRange(0, width));
+            bacteria.increaseCounter();
+
+            if (bacteria.canSplit()) {
+                Position newBacteriaPos1 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
+                        width - 1));
+                Position newBacteriaPos2 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
+                        width - 1));
+
+                while (!bacteria.isInsideRadius(newBacteriaPos1) && bacteria.isOverlapping(newBacteriaPos1)) {
+                    newBacteriaPos1 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
+                            width - 1));
                 }
-                while (!bacteria.isInsideRadius(newBacteriaPos2)
-                        && (newBacteriaPos1.x != newBacteriaPos2.x || newBacteriaPos1.y != newBacteriaPos2.y)){
-                    newBacteriaPos2 = new Position(getRandomNumberInRange(0, width), getRandomNumberInRange(0, width));
+                while (!bacteria.isInsideRadius(newBacteriaPos2) && bacteria.isOverlapping(newBacteriaPos2)) {
+                    newBacteriaPos2 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
+                            width - 1));
                 }
 
                 switch (bacteria.getType()) {
                     case BACILLUS:
                         iterator.add(new Bacillus(newBacteriaPos1));
                         iterator.add(new Bacillus(newBacteriaPos2));
+                        System.out.println(bacteria.getId() + " " + bacteria.getType() + " split into 2 new Bacilli");
                         break;
                     case COCCUS:
                         iterator.add(new Coccus(newBacteriaPos1));
                         iterator.add(new Coccus(newBacteriaPos2));
+                        System.out.println(bacteria.getId() + " " + bacteria.getType() + " split into 2 new Coccuses");
                         break;
                     case SPIRILLUM:
                         iterator.add(new Spirillum(newBacteriaPos1));
                         iterator.add(new Spirillum(newBacteriaPos2));
+                        System.out.println(bacteria.getId() + " " + bacteria.getType() + " split into 2 new Spirillum");
                         break;
                 }
                 iterator.remove();
+                System.out.println(bacteria.getId() + " " + bacteria.getType() + " died fom Life Span End");
+            } else if (bacteria.isDead()) {
+                System.out.println(bacteria.getId() + " " + bacteria.getType() + " died from Nearby Conditions");
+                iterator.remove();
             }
         }
+    }
+
+    public void display() {
+        for (int y = 0; y < width; y++) {
+            StringBuilder line = new StringBuilder();
+            for (int x = 0; x < width; x++) {
+                boolean isSpaceOccupied = false;
+                for (Bacteria bacteria : bacteriaList) {
+                    if (bacteria.getPosition().x == x && bacteria.getPosition().y == y) {
+                        line.append(bacteria.getType().getName()).append(" ");
+                        isSpaceOccupied = true;
+                        break;
+                    }
+                }
+                if (!isSpaceOccupied) {
+                    line.append(". ");
+                }
+            }
+            System.out.println(line);
+        }
+    }
+
+    public void enumerateBacteria() {
+        for (Bacteria bacteria : bacteriaList) {
+            System.out.println(bacteria.getId() + " " + bacteria.getType() + " at "
+                    + bacteria.getPosition().toString());
+        }
+        System.out.println("----------------------------------------------");
     }
 
     /**
@@ -122,7 +160,7 @@ public class PetriDish {
      * @param max inclusive
      * @return integer
      */
-    public static int getRandomNumberInRange(int min, int max) {
+    public int getRandomNumberInRange(int min, int max) {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }

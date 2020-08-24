@@ -1,6 +1,5 @@
 package com.codecool.petridish.LifeForms;
 
-import com.codecool.petridish.PetriDish;
 import com.codecool.petridish.Utilities.BacteriaType;
 import com.codecool.petridish.Utilities.Position;
 
@@ -9,15 +8,15 @@ import java.util.UUID;
 public abstract class Bacteria {
     private final UUID id;
     private BacteriaType type;
-    private Position position;
+    private final Position position;
     private int lifeSpan;
     private int nearbyRadius;
     private int counter;
 
     public Bacteria(Position position) {
-        this.id = UUID.fromString(Integer.toString(PetriDish.getTimePulse()));
+        this.id = UUID.randomUUID();
         this.position = position;
-        this.counter = 0;
+        this.counter = 1;
     }
 
     public void setType(BacteriaType type) {
@@ -32,7 +31,7 @@ public abstract class Bacteria {
         this.nearbyRadius = nearbyRadius;
     }
 
-    public void setCounter() {
+    public void increaseCounter() {
         counter++;
     }
 
@@ -60,5 +59,9 @@ public abstract class Bacteria {
         // Compare radius of circle with distance of its center from given
         return (otherBacteriaPos.x - position.x) * (otherBacteriaPos.x - position.x)
                 + (otherBacteriaPos.y - position.y) * (otherBacteriaPos.y - position.y) <= nearbyRadius * nearbyRadius;
+    }
+
+    public boolean isOverlapping(Position otherBacteriaPos) {
+        return position.x == otherBacteriaPos.x && position.y == otherBacteriaPos.y;
     }
 }

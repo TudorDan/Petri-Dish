@@ -19,9 +19,11 @@ public class Coccus extends Bacteria {
         List<Bacteria> bacteriaList = PetriDish.getBacteriaList();
         int bacteriaInstances = 0;
         for (Bacteria bacteria : bacteriaList) {
-            Position bacteriaPos = bacteria.getPosition();
-            if (isInsideRadius(bacteriaPos)) {
-                bacteriaInstances++;
+            if (bacteria.getType() != BacteriaType.COCCUS) {
+                Position bacteriaPos = bacteria.getPosition();
+                if (isInsideRadius(bacteriaPos)) {
+                    bacteriaInstances++;
+                }
             }
         }
         return bacteriaInstances < 2;
