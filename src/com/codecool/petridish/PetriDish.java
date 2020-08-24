@@ -62,4 +62,14 @@ public class PetriDish {
         }
         return coccuses;
     }
+
+    public List<Bacillus> getBacilli() {
+        List<Bacillus> bacilli = new ArrayList<>();
+        for (Bacteria bacteria : bacteriaList) {
+            if (bacteria.getType() == BacteriaType.BACILLUS) {
+                bacilli.add((Bacillus) bacteria);
+            }
+        }
+        return bacilli;
+    }
 }
