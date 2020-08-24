@@ -49,6 +49,10 @@ public class PetriDish {
         bacteriaList.add(bacteria);
     }
 
+    public static List<Bacteria> getBacteriaList() {
+        return bacteriaList;
+    }
+
     public List<Coccus> getCoccuses() {
         List<Coccus> coccuses = new ArrayList<>();
         for (Bacteria bacteria : bacteriaList) {
