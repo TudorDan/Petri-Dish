@@ -27,11 +27,25 @@ public abstract class Bacteria {
         this.nearbyRadius = nearbyRadius;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public BacteriaType getType() {
+        return type;
+    }
+
     public boolean canSplit() {
         return false;
     }
 
     public boolean isDead() {
         return false;
+    }
+
+    public boolean isInsideRadius(Position otherBacteriaPos) {
+        // Compare radius of circle with distance of its center from given
+        return (otherBacteriaPos.x - position.x) * (otherBacteriaPos.x - position.x)
+                + (otherBacteriaPos.y - position.y) * (otherBacteriaPos.y - position.y) <= nearbyRadius * nearbyRadius;
     }
 }
