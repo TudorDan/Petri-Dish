@@ -1,18 +1,23 @@
 package com.codecool.petridish.LifeForms;
 
+import com.codecool.petridish.PetriDish;
 import com.codecool.petridish.Utilities.BacteriaType;
 import com.codecool.petridish.Utilities.Position;
 
+import java.util.UUID;
+
 public abstract class Bacteria {
-    private int id;
+    private final UUID id;
     private BacteriaType type;
     private Position position;
     private int lifeSpan;
     private int nearbyRadius;
+    private int counter;
 
-    public Bacteria(int id, Position position) {
-        this.id = id;
+    public Bacteria(Position position) {
+        this.id = UUID.fromString(Integer.toString(PetriDish.getTimePulse()));
         this.position = position;
+        this.counter = 0;
     }
 
     public void setType(BacteriaType type) {
@@ -27,6 +32,10 @@ public abstract class Bacteria {
         this.nearbyRadius = nearbyRadius;
     }
 
+    public void setCounter() {
+        counter++;
+    }
+
     public Position getPosition() {
         return position;
     }
@@ -35,8 +44,12 @@ public abstract class Bacteria {
         return type;
     }
 
+    public String getId() {
+        return id.toString().replace("-", "");
+    }
+
     public boolean canSplit() {
-        return false;
+        return counter == lifeSpan;
     }
 
     public boolean isDead() {

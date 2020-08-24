@@ -7,8 +7,8 @@ import com.codecool.petridish.Utilities.Position;
 import java.util.List;
 
 public class Spirillum extends Bacteria {
-    public Spirillum(int id, Position position) {
-        super(id, position);
+    public Spirillum(Position position) {
+        super(position);
         setType(BacteriaType.SPIRILLUM);
         setLifeSpan(40);
         setNearbyRadius(2);

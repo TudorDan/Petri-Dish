@@ -7,8 +7,8 @@ import com.codecool.petridish.Utilities.Position;
 import java.util.List;
 
 public class Coccus extends Bacteria {
-    public Coccus(int id, Position position) {
-        super(id, position);
+    public Coccus(Position position) {
+        super(position);
         setType(BacteriaType.COCCUS);
         setLifeSpan(100);
         setNearbyRadius(1);
