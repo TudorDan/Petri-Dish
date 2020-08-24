@@ -6,21 +6,17 @@ import com.codecool.petridish.Utilities.Position;
 public abstract class Bacteria {
     private int id;
     private BacteriaType type;
-    private Position coordinates;
+    private Position position;
     private int lifeSpan;
     private int nearbyRadius;
 
-
-    public Bacteria(int id) {
+    public Bacteria(int id, Position position) {
         this.id = id;
+        this.position = position;
     }
 
     public void setType(BacteriaType type) {
         this.type = type;
-    }
-
-    public void setCoordinates(Position coordinates) {
-        this.coordinates = coordinates;
     }
 
     public void setLifeSpan(int lifeSpan) {
