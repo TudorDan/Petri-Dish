@@ -21,13 +21,8 @@ public class Main {
         Position bacillusPos3 = new Position(1, 4);
         petriDish.addBacteria(new Bacillus(bacillusPos3));
 
-        for (int i = 1; i <= 400; i++) {
-            System.out.println("Time Pulse: " + petriDish.getTimePulse() + " Petri dish contains:");
-            petriDish.enumerateBacteria();
-
+        for (int i = 1; i <= 100; i++) {
             petriDish.processBacteriaList();
-            petriDish.display();
-            petriDish.increaseTimePulse();
         }
 
         System.out.println("End of Project simulation.");

@@ -38,11 +38,7 @@ public class PetriDish {
     }
 
     public void setTimePulse() {
-        timePulse = 1;
-    }
-
-    public void increaseTimePulse() {
-        timePulse++;
+        timePulse = 0;
     }
 
     public int getTimePulse() {
@@ -78,50 +74,56 @@ public class PetriDish {
     }
 
     public void processBacteriaList() {
-        ListIterator<Bacteria> iterator = bacteriaList.listIterator();
-        while (iterator.hasNext()) {
-            Bacteria bacteria = iterator.next();
+        timePulse++;
+        System.out.println("\nTime Pulse: " + timePulse + " Petri dish contains:");
+        enumerateBacteria();
+        display();
 
+        List<Bacteria> copyOfBacteriaList = new ArrayList<>(bacteriaList);
+        for (Bacteria bacteria : bacteriaList) {
             bacteria.increaseCounter();
-
+            // dividing bacteria
             if (bacteria.canSplit()) {
                 Position newBacteriaPos1 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
                         width - 1));
                 Position newBacteriaPos2 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
                         width - 1));
 
-                while (!bacteria.isInsideRadius(newBacteriaPos1) && bacteria.isOverlapping(newBacteriaPos1)) {
+                while (!bacteria.isInsideRadius(newBacteriaPos1) || bacteria.isOverlapping(newBacteriaPos1)
+                        || (newBacteriaPos1.x == newBacteriaPos2.x && newBacteriaPos1.y == newBacteriaPos2.y)) {
                     newBacteriaPos1 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
                             width - 1));
                 }
-                while (!bacteria.isInsideRadius(newBacteriaPos2) && bacteria.isOverlapping(newBacteriaPos2)) {
+                while (!bacteria.isInsideRadius(newBacteriaPos2) || bacteria.isOverlapping(newBacteriaPos2)
+                        || (newBacteriaPos1.x == newBacteriaPos2.x && newBacteriaPos1.y == newBacteriaPos2.y)) {
                     newBacteriaPos2 = new Position(getRandomNumberInRange(0, width - 1), getRandomNumberInRange(0,
                             width - 1));
                 }
 
                 switch (bacteria.getType()) {
                     case BACILLUS:
-                        iterator.add(new Bacillus(newBacteriaPos1));
-                        iterator.add(new Bacillus(newBacteriaPos2));
+                        copyOfBacteriaList.add(new Bacillus(newBacteriaPos1));
+                        copyOfBacteriaList.add(new Bacillus(newBacteriaPos2));
                         System.out.println(bacteria.getId() + " " + bacteria.getType() + " split into 2 new Bacilli");
                         break;
                     case COCCUS:
-                        iterator.add(new Coccus(newBacteriaPos1));
-                        iterator.add(new Coccus(newBacteriaPos2));
+                        copyOfBacteriaList.add(new Coccus(newBacteriaPos1));
+                        copyOfBacteriaList.add(new Coccus(newBacteriaPos2));
                         System.out.println(bacteria.getId() + " " + bacteria.getType() + " split into 2 new Coccuses");
                         break;
                     case SPIRILLUM:
-                        iterator.add(new Spirillum(newBacteriaPos1));
-                        iterator.add(new Spirillum(newBacteriaPos2));
+                        copyOfBacteriaList.add(new Spirillum(newBacteriaPos1));
+                        copyOfBacteriaList.add(new Spirillum(newBacteriaPos2));
                         System.out.println(bacteria.getId() + " " + bacteria.getType() + " split into 2 new Spirillum");
                         break;
                 }
-                iterator.remove();
+                copyOfBacteriaList.remove(bacteria);
                 System.out.println(bacteria.getId() + " " + bacteria.getType() + " died fom Life Span End");
             } else if (bacteria.isDead()) {
                 System.out.println(bacteria.getId() + " " + bacteria.getType() + " died from Nearby Conditions");
-                iterator.remove();
+                copyOfBacteriaList.remove(bacteria);
             }
+            bacteriaList = new ArrayList<>(copyOfBacteriaList);
         }
     }
 

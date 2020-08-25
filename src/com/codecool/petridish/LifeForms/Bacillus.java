@@ -7,6 +7,8 @@ import com.codecool.petridish.Utilities.Position;
 import java.util.List;
 
 public class Bacillus extends Bacteria {
+    private int counter;
+
     public Bacillus(Position position) {
         super(position);
         setType(BacteriaType.BACILLUS);

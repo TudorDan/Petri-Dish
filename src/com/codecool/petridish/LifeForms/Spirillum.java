@@ -7,6 +7,8 @@ import com.codecool.petridish.Utilities.Position;
 import java.util.List;
 
 public class Spirillum extends Bacteria {
+    private int counter;
+
     public Spirillum(Position position) {
         super(position);
         setType(BacteriaType.SPIRILLUM);

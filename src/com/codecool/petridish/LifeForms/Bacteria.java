@@ -16,7 +16,7 @@ public abstract class Bacteria {
     public Bacteria(Position position) {
         this.id = UUID.randomUUID();
         this.position = position;
-        this.counter = 1;
+        this.counter = 0;
     }
 
     public void setType(BacteriaType type) {
@@ -29,10 +29,6 @@ public abstract class Bacteria {
 
     public void setNearbyRadius(int nearbyRadius) {
         this.nearbyRadius = nearbyRadius;
-    }
-
-    public void increaseCounter() {
-        counter++;
     }
 
     public Position getPosition() {
@@ -49,6 +45,10 @@ public abstract class Bacteria {
 
     public boolean canSplit() {
         return counter == lifeSpan;
+    }
+
+    public void increaseCounter() {
+        counter++;
     }
 
     public boolean isDead() {
