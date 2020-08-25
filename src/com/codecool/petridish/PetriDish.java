@@ -76,7 +76,7 @@ public class PetriDish {
     public void processBacteriaList() {
         timePulse++;
         System.out.println("\nTime Pulse: " + timePulse + " Petri dish contains:");
-        enumerateBacteria();
+        //enumerateBacteria();
         display();
 
         List<Bacteria> copyOfBacteriaList = new ArrayList<>(bacteriaList);
