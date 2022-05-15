@@ -17,12 +17,13 @@ public class Bacillus extends Bacteria {
     }
 
     @Override
-    public boolean isDead() {
-        List<Coccus> coccusList = PetriDish.getInstance().getCoccuses();
-        for (Coccus coccus : coccusList) {
-            Position coccusPos = coccus.getPosition();
-            if (isInsideRadius(coccusPos)) {
-                return false;
+    public boolean isDead(List<Bacteria> bacteriaList) {
+        for (Bacteria bacteria : bacteriaList) {
+            if (bacteria.getType() == BacteriaType.COCCUS) {
+                Position coccusPos = bacteria.getPosition();
+                if (isInsideRadius(coccusPos)) {
+                    return false;
+                }
             }
         }
         return true;

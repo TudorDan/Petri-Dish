@@ -17,12 +17,13 @@ public class Spirillum extends Bacteria {
     }
 
     @Override
-    public boolean isDead() {
-        List<Bacillus> bacillusList = PetriDish.getInstance().getBacilli();
-        for (Bacillus bacillus : bacillusList) {
-            Position bacillusPos = bacillus.getPosition();
-            if (isInsideRadius(bacillusPos)) {
-                return true;
+    public boolean isDead(List<Bacteria> bacteriaList) {
+        for (Bacteria bacteria : bacteriaList) {
+            if (bacteria.getType() == BacteriaType.BACILLUS) {
+                Position bacillusPos = bacteria.getPosition();
+                if (isInsideRadius(bacillusPos)) {
+                    return true;
+                }
             }
         }
         return false;

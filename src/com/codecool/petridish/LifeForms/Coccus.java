@@ -17,8 +17,7 @@ public class Coccus extends Bacteria {
     }
 
     @Override
-    public boolean isDead() {
-        List<Bacteria> bacteriaList = PetriDish.getBacteriaList();
+    public boolean isDead(List<Bacteria> bacteriaList) {
         int bacteriaInstances = 0;
         for (Bacteria bacteria : bacteriaList) {
             if (bacteria.getType() != BacteriaType.COCCUS) {

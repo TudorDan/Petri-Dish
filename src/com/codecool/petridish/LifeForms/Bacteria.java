@@ -3,6 +3,7 @@ package com.codecool.petridish.LifeForms;
 import com.codecool.petridish.Utilities.BacteriaType;
 import com.codecool.petridish.Utilities.Position;
 
+import java.util.List;
 import java.util.UUID;
 
 public abstract class Bacteria {
@@ -51,9 +52,7 @@ public abstract class Bacteria {
         lifeCounter++;
     }
 
-    public boolean isDead() {
-        return false;
-    }
+    public abstract boolean isDead(List<Bacteria> bacteriaList);
 
     public boolean isInsideRadius(Position otherBacteriaPos) {
         // Compare radius of circle with distance of its center from given
